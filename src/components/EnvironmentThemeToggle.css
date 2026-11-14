@@ -1,0 +1,235 @@
+/* =============================================
+   Day & Night Environment Toggle Styles
+   Adapted from custom interactive switch
+   ============================================= */
+
+.env-toggle-scale {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 44px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.env-toggle-scale .env-toggle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.19);
+  transform-origin: center center;
+}
+
+@media (min-width: 640px) {
+  .env-toggle-scale {
+    width: 48px;
+    height: 22px;
+  }
+
+  .env-toggle-scale .env-toggle {
+    transform: translate(-50%, -50%) scale(0.21);
+  }
+}
+
+/* Main Toggle Container */
+.env-toggle {
+  position: relative;
+  display: inline-block;
+  width: 220px;
+  height: 96px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hide default checkbox */
+.toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Sky / Button Environment */
+.sky {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  overflow: hidden;
+  /* OFF State (Night Sky) */
+  background: linear-gradient(180deg, #111625 0%, #242c46 100%);
+  box-shadow: 
+    inset 0 6px 14px rgba(0, 0, 0, 0.6),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.15),
+    0 8px 20px rgba(0, 0, 0, 0.35);
+  transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sun / Moon Knob */
+.celestial-knob {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  /* OFF State (Moon appearance) */
+  background: #d8dce6;
+  box-shadow:
+    inset -6px -4px 10px rgba(0, 0, 0, 0.25),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.9),
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    /* Concentric atmospheric glow rings */
+    0 0 0 18px rgba(255, 255, 255, 0.06),
+    0 0 0 38px rgba(255, 255, 255, 0.05),
+    0 0 0 60px rgba(255, 255, 255, 0.03);
+  transition: 
+    transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1),
+    background 0.6s ease,
+    box-shadow 0.6s ease;
+  z-index: 3;
+}
+
+/* Moon Craters (Visible in OFF / Night state) */
+.crater {
+  position: absolute;
+  background-color: #b4bac8;
+  border-radius: 50%;
+  box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.4s ease;
+  opacity: 1;
+}
+
+.crater.c1 {
+  width: 22px;
+  height: 22px;
+  top: 28px;
+  left: 14px;
+}
+
+.crater.c2 {
+  width: 14px;
+  height: 14px;
+  top: 14px;
+  left: 40px;
+}
+
+.crater.c3 {
+  width: 12px;
+  height: 12px;
+  top: 48px;
+  left: 44px;
+}
+
+/* Stars (Visible in OFF / Night state) */
+.stars {
+  position: absolute;
+  inset: 0;
+  color: #ffffff;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 1;
+}
+
+.star {
+  position: absolute;
+  display: block;
+  line-height: 1;
+  animation: envTwinkle 2.5s infinite ease-in-out alternate;
+}
+
+.star.s1 { top: 18px; right: 82px; font-size: 16px; animation-delay: 0s; }
+.star.s2 { top: 52px; right: 36px; font-size: 13px; animation-delay: 0.7s; }
+.star.s3 { top: 24px; right: 48px; font-size: 14px; animation-delay: 1.2s; }
+.star.s4 { top: 64px; right: 98px; font-size: 12px; animation-delay: 0.4s; }
+.star.s5 { top: 40px; right: 112px; font-size: 10px; animation-delay: 1.5s; }
+.star.s6 { top: 20px; right: 24px; font-size: 10px; animation-delay: 0.9s; }
+
+@keyframes envTwinkle {
+  0% { opacity: 0.35; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Clouds (Hidden in OFF / Night state) */
+.clouds {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+  transform: translateY(80px);
+  opacity: 0;
+  z-index: 2;
+}
+
+.clouds span {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+/* Front Cloud Layer */
+.cloud-front span:nth-child(1) { width: 55px; height: 55px; bottom: -22px; left: -10px; }
+.cloud-front span:nth-child(2) { width: 65px; height: 65px; bottom: -28px; left: 26px; }
+.cloud-front span:nth-child(3) { width: 50px; height: 50px; bottom: -18px; left: 72px; }
+.cloud-front span:nth-child(4) { width: 68px; height: 68px; bottom: -25px; left: 105px; }
+.cloud-front span:nth-child(5) { width: 60px; height: 60px; bottom: -12px; left: 155px; }
+
+/* Back Translucent Cloud Layer */
+.cloud-back {
+  z-index: 1;
+  transition-delay: 0.05s;
+}
+
+.cloud-back span {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.cloud-back span:nth-child(1) { width: 65px; height: 65px; bottom: -8px; left: -5px; }
+.cloud-back span:nth-child(2) { width: 70px; height: 70px; bottom: -10px; left: 42px; }
+.cloud-back span:nth-child(3) { width: 60px; height: 60px; bottom: -4px; left: 88px; }
+.cloud-back span:nth-child(4) { width: 75px; height: 75px; bottom: -8px; left: 122px; }
+.cloud-back span:nth-child(5) { width: 70px; height: 70px; bottom: 8px; left: 165px; }
+
+/* =============================================
+   ON STATE (CHECKED) -> DAY ENVIRONMENT
+   ============================================= */
+
+/* Turn sky blue */
+.toggle-input:checked + .sky {
+  background: linear-gradient(180deg, #3b87d8 0%, #68b5f8 100%);
+}
+
+/* Slide Moon to the right and transform into the Sun */
+.toggle-input:checked + .sky .celestial-knob {
+  transform: translateX(124px);
+  background: #ffd338;
+  box-shadow:
+    inset -4px -4px 8px rgba(212, 136, 0, 0.45),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.85),
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    /* Warm sunlight halos */
+    0 0 0 18px rgba(255, 255, 255, 0.14),
+    0 0 0 38px rgba(255, 255, 255, 0.1),
+    0 0 0 60px rgba(255, 255, 255, 0.06);
+}
+
+/* Hide Moon craters when it becomes the Sun */
+.toggle-input:checked + .sky .crater {
+  opacity: 0;
+}
+
+/* Move stars up and out of sight */
+.toggle-input:checked + .sky .stars {
+  transform: translateY(-70px);
+  opacity: 0;
+}
+
+/* Rise clouds from the bottom */
+.toggle-input:checked + .sky .clouds {
+  transform: translateY(0);
+  opacity: 1;
+}
